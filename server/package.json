@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "tsc & node ."
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cron": "^3.1.7",
+    "expo-server-sdk": "^3.9.0",
+    "express": "^4.19.2",
+    "firebase": "^10.11.1"
+  }
+}

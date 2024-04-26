@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "270762185717",
+    "firebase_url": "https://esp32-16690-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "esp32-16690",
+    "storage_bucket": "esp32-16690.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270762185717:android:dc3e4e759bb26314ab46bc",
+        "android_client_info": {
+          "package_name": "com.omarhassan.mediot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEL82CXQIWtcX0uVxkAwSoaQ8GfbZ8uKo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

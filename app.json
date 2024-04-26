@@ -21,10 +21,20 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.omarhassan.mediot",
+      "googleServiceFile": "./android/app/google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "160ad85c-021e-4af4-85d3-11679788ea54"
+      }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }

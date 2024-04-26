@@ -35,7 +35,7 @@ export default function TempratureScreen({ goToPage }) {
          const now = new Date();
          const hour = now.getHours();
          if(hour != lastHour) {
-            setHourLabels(Array.from({ length: 7 }, (_, index) => `${(index * 4 + hour - 1) % 12} ${((index * 4 + hour - 1) % 24) >= 12 ? `PM` : 'AM'}`));
+            setHourLabels(Array.from({ length: 7 }, (_, index) => `${(index * 4 + hour - 1) % 12 == 0 ? 12 : (index * 4 + hour - 1) % 12} ${((index * 4 + hour - 1) % 24) >= 12 ? `PM` : 'AM'}`));
             setLastHour(hour);
          }
       });
