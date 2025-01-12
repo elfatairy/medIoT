@@ -10,12 +10,12 @@ import { Pressable } from 'react-native';
 import { database } from '../firebaseConfig';
 import { Link } from 'expo-router';
 
-export default function AirqualityScreen({ goToPage }) {
+export default function VocScreen({ goToPage }) {
 
-   const [airQuality, setAirQuality] = useState(0);
-   const [airqualityData, setAirqualityData] = useState([]);
+   const [voc, setVoc] = useState(0);
+   const [vocData, setVocData] = useState([]);
 
-   const chartWidth = 290;
+   const chartWidth = 280;
    const chartHeight = 200;
 
    const [hourLabels, setHourLabels] = useState([]);
@@ -24,12 +24,12 @@ export default function AirqualityScreen({ goToPage }) {
 
    useEffect(() => {
          
-      const starCountRef = ref(database, 'airquality');
+      const starCountRef = ref(database, 'voc');
 
       onValue(starCountRef, (snapshot) => {
          const data = snapshot.val();
-         setAirQuality(data.value);
-         setAirqualityData(data['24h'].split(','));
+         setVoc(data.value);
+         setVocData(data['24h'].split(','));
          
          const now = new Date();
          const hour = now.getHours();
@@ -50,24 +50,24 @@ export default function AirqualityScreen({ goToPage }) {
             colors={['#1abc9c', '#16a085']} 
             style={styles.block}>
             <View style={styles.blockContainer}>
-               <Text style={styles.title}>Air Quality</Text>
+               <Text style={styles.title}>VOCs</Text>
                <View style={styles.value}>
-                  <Text style={styles.number}>{airQuality}</Text>
+                  <Text style={styles.number}>{voc}</Text>
                   <Text style={styles.unit}>ppm</Text>
                </View>
                <View style={styles.graphContainer}>
                   <View style={styles.yaxis}>
-                     <Text style={styles.v}>{Math.min(1000, Math.max(...airqualityData))} ppm</Text>
-                     <Text style={styles.v}>{Math.max(0, Math.min(...airqualityData))} ppm</Text>
+                     <Text style={styles.v}>{Math.min(1000, Math.max(...vocData))} ppm</Text>
+                     <Text style={styles.v}>{Math.max(0, Math.min(...vocData))} ppm</Text>
                   </View>
                   <View style={styles.graph}>
                      <Svg width={chartWidth} height={chartHeight}>
                         <Line x1="0" y1="0" x2="0" y2={chartHeight} stroke="black" strokeWidth="1" />
                         <Line x1="0" y1={chartHeight} x2={chartWidth} y2={chartHeight} stroke="black" strokeWidth="1" />
                         <Path d={
-                           airqualityData.map((airQuality, index) => ({
-                              x: (index * chartWidth) / (airqualityData.length - 1),
-                              y: ((airQuality - Math.min(...airqualityData)) / (Math.max(...airqualityData) - Math.min(...airqualityData))) * chartHeight + 1,
+                           vocData.map((voc, index) => ({
+                              x: (index * chartWidth) / (vocData.length - 1),
+                              y: ((voc - Math.min(...vocData)) / (Math.max(...vocData) - Math.min(...vocData))) * chartHeight + 1,
                            })).map((point, index) => `${index === 0 ? 'M' : 'L'}${point.x},${chartHeight - point.y}`).join(' ')
                         } stroke="#fff" strokeWidth="3" fill="none" />
                      </Svg>

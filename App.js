@@ -6,8 +6,9 @@ import SignupScreen from './app/signup';
 import HomeScreen from './app/home';
 import TempratureScreen from './app/temprature';
 import HumidityScreen from './app/humidity';
-import AirqualityScreen from './app/airquality';
+import VocScreen from './app/voc';
 import EmegrencyScreen from './app/emergency';
+import SoilMoistureScreen from './app/soilMoisture';
 import { useEffect, useRef, useState } from 'react';
 import { usePushNotifications } from "./usePushNotifications";
 
@@ -15,7 +16,7 @@ import { usePushNotifications } from "./usePushNotifications";
 export default function App() {
   const pagerRef = useRef(null);
   const [logged, setLogged] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(2);
 
   const { expoPushToken, notification } = usePushNotifications();
 
@@ -41,9 +42,9 @@ export default function App() {
           currentPage == 4?
           <HumidityScreen goToPage={goToPage}/>:
           currentPage == 5?
-          <AirqualityScreen goToPage={goToPage}/>:
+          <VocScreen goToPage={goToPage}/>:
           currentPage == 6?
-          <EmegrencyScreen goToPage={goToPage} currentPage={currentPage}/>:null
+          <SoilMoistureScreen goToPage={goToPage} currentPage={currentPage}/>:null
         }
     </View>
   );

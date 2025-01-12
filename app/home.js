@@ -8,6 +8,7 @@ import { Link } from "expo-router";
 import { Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { database } from '../firebaseConfig';
+import AiOutput from './aiOutput';
 
 const ArrowIconWithBackground = () => {
    return (
@@ -22,7 +23,7 @@ export default function HomeScreen({ goToPage }) {
    
    return (  
       <View style={styles.container}>
-         <Text style={styles.title}>MedIoT</Text>
+         <Text style={styles.title}>AgriHawk</Text>
          <View style={styles.blocks}>
             <View style={styles.row}>
                <LinearGradient
@@ -57,22 +58,23 @@ export default function HomeScreen({ goToPage }) {
                            <FontAwesome5 name="mask" size={30} color="#fff" />
                            <ArrowIconWithBackground />
                         </View>
-                        <Text style={styles.text}>Air Quality</Text>
+                        <Text style={styles.text}>VOCs</Text>
                   </Pressable>
                </LinearGradient>
                <LinearGradient
-                  colors={['#e74c3c', '#c0392b']}
+                  colors={['#92400e', '#78350f']}
                   style={[styles.block, styles.emerg]}>
                   <Pressable style={styles.blockContainer} onPress={() => {goToPage(6)}}>
                         <View style={styles.icons}>
-                           <Ionicons name="warning" size={30} color="#fff" />
+                           <FontAwesome5 name="percentage" size={30} color="#fff" />
                            <ArrowIconWithBackground />
                         </View>
-                        <Text style={styles.text}>Emergency</Text>
+                        <Text style={styles.text}>Soil Moisture</Text>
                   </Pressable>
                </LinearGradient>
             </View>
          </View>
+         <AiOutput />
          <Logout goToPage={goToPage}/>
       </View>
    );
@@ -81,7 +83,7 @@ export default function HomeScreen({ goToPage }) {
 const styles = StyleSheet.create({
    container: {
       paddingTop: 60,
-      paddingHorizontal: 50,
+      paddingHorizontal: 15,
       flex: 1,
       flexDirection: "column",
    },

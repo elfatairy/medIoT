@@ -1,20 +1,19 @@
-import { StatusBar } from 'expo-status-bar';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { MaterialCommunityIcons, MaterialIcons, FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { StyleSheet, Text, View } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Logout from '../logoutComp';
 import { Line, Path, Svg } from 'react-native-svg';
 import { ref, onValue } from "firebase/database";
-import { router } from 'expo-router';
-import { Link } from "expo-router";
+import { Pressable } from 'react-native';
 import { database } from '../firebaseConfig';
+import { Link } from 'expo-router';
 
-export default function TempratureScreen({ goToPage }) {
+export default function SoilMoistureScreen({ goToPage }) {
 
-   const [temp, setTemp] = useState(0);
-   const [temperatureData, setTemperatureData] = useState([]);
+   const [soilMoisture, setSoilMoisture] = useState(0);
+   const [soilMoistureData, setSoilMoistureData] = useState([]);
 
    const chartWidth = 280;
    const chartHeight = 200;
@@ -24,13 +23,13 @@ export default function TempratureScreen({ goToPage }) {
    const [lastHour, setLastHour] = useState('');
 
    useEffect(() => {
-      
-      const starCountRef = ref(database, 'temperature');
-      
+         
+      const starCountRef = ref(database, 'soilMoisture');
+
       onValue(starCountRef, (snapshot) => {
          const data = snapshot.val();
-         setTemp(data.value);
-         setTemperatureData(data['24h'].split(','));
+         setSoilMoisture(data.value);
+         setSoilMoistureData(data['24h'].split(','));
          
          const now = new Date();
          const hour = now.getHours();
@@ -39,7 +38,6 @@ export default function TempratureScreen({ goToPage }) {
             setLastHour(hour);
          }
       });
-      
    }, []);
 
    return (  
@@ -49,28 +47,29 @@ export default function TempratureScreen({ goToPage }) {
             <Text style={styles.backText}>sensors</Text>
          </Pressable>
          <LinearGradient
-            colors={['#e67e22', '#d35400']} 
+            colors={['#92400e', '#78350f']} 
             style={styles.block}>
             <View style={styles.blockContainer}>
-               <Text style={styles.title}>Temprature</Text>
+               <Text style={styles.title}>Soil Moisture</Text>
                <View style={styles.value}>
-                  <Text style={styles.number}>{temp}</Text>
-                  <Text style={styles.unit}>C°</Text>
+                  <Text style={styles.number}>{soilMoisture}</Text>
+                  <Text style={styles.unit}>%</Text>
                </View>
                <View style={styles.graphContainer}>
                   <View style={styles.yaxis}>
-                     <Text style={styles.v}>{Math.min(100, Math.max(...temperatureData))} C°</Text>
-                     <Text style={styles.v}>{Math.max(-100, Math.min(...temperatureData))} C°</Text>
+                     <Text style={styles.v}>{Math.min(1000, Math.max(...soilMoistureData))}%</Text>
+                     <Text style={styles.v}>{Math.max(0, Math.min(...soilMoistureData))}%</Text>
                   </View>
                   <View style={styles.graph}>
                      <Svg width={chartWidth} height={chartHeight}>
                         <Line x1="0" y1="0" x2="0" y2={chartHeight} stroke="black" strokeWidth="1" />
                         <Line x1="0" y1={chartHeight} x2={chartWidth} y2={chartHeight} stroke="black" strokeWidth="1" />
-                        <Path d={temperatureData.map((temp, index) => ({
-                           x: (index * chartWidth) / (temperatureData.length - 1),
-                           y: ((temp - Math.min(...temperatureData)) / (Math.max(...temperatureData) - Math.min(...temperatureData))) * chartHeight + 1,
-                        })).map((point, index) => `${index === 0 ? 'M' : 'L'}${point.x},${chartHeight - point.y}`).join(' ')
-                     } stroke="#fff" strokeWidth="3" fill="none" />
+                        <Path d={
+                           soilMoistureData.map((soilMoisture, index) => ({
+                              x: (index * chartWidth) / (soilMoistureData.length - 1),
+                              y: ((soilMoisture - Math.min(...soilMoistureData)) / (Math.max(...soilMoistureData) - Math.min(...soilMoistureData))) * chartHeight + 1,
+                           })).map((point, index) => `${index === 0 ? 'M' : 'L'}${point.x},${chartHeight - point.y}`).join(' ')
+                        } stroke="#fff" strokeWidth="3" fill="none" />
                      </Svg>
                      <View style={styles.labelsContainer}>
                         {hourLabels.map((hour, index) => (

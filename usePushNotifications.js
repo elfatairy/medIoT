@@ -21,21 +21,21 @@ export const usePushNotifications = () => {
    const notificationListener = useRef();
    const responseListener = useRef();
 
-   async function registerForPushTokensAsync()  {
+   async function registerForPushTokensAsync() {
       let token;
 
-      if(Device.isDevice) {
+      if (Device.isDevice) {
          console.log("is Device")
-         const {status: existingStatus} = await Notifications.getPermissionsAsync();
+         const { status: existingStatus } = await Notifications.getPermissionsAsync();
 
          let finalStatus = existingStatus;
 
-         if(existingStatus !== "granted") {
-            const {status} = await Notifications.requestPermissionsAsync();
+         if (existingStatus !== "granted") {
+            const { status } = await Notifications.requestPermissionsAsync();
             finalStatus = status;
             console.log("ungranted st");
          }
-         if(finalStatus !== "granted") {
+         if (finalStatus !== "granted") {
             alert("Failed to get push token for push notification!");
             console.log("ungranted nd");
             return;
@@ -64,17 +64,35 @@ export const usePushNotifications = () => {
    }
 
    useEffect(() => {
-      registerForPushTokensAsync().then(token => {
-         setExpoPushToken(token);
+      registerForPushTokensAsync().then(async token => {
+         try {
+            console.log("entering");
+            const baseApi = process.env.EXPO_PUBLIC_BACKEND_API;
+            console.log(token.data);
+            // const res = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_API}/registerPushToken`, {
+            const res = await fetch(`${baseApi}/registerPushToken`, {
+               headers: {
+                  "Content-Type": "application/json",
+               },
+               method: "POST",
+               body: JSON.stringify({
+                  token: token.data
+               })
+            })
+         } catch (error) {
+            console.log("error");
+            console.log(error);
+         }
       });
 
       notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
          setNotification(notification);
-      }); 
+      });
 
       return () => {
-         Notifications.removeNotificationSubscription(notificationListener.current);      }
-      
+         Notifications.removeNotificationSubscription(notificationListener.current);
+      }
+
    }, []);
 
    return {

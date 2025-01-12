@@ -15,7 +15,7 @@ export default function HumidityScreen({ goToPage }) {
    const [humidity, setHumidity] = useState(0);
    const [humidityData, setHumidityData] = useState([]);
 
-   const chartWidth = 290;
+   const chartWidth = 280;
    const chartHeight = 200;   
 
    const [hourLabels, setHourLabels] = useState([]);
