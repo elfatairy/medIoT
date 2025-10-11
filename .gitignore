@@ -8,6 +8,8 @@ node_modules/
 dist/
 web-build/
 
+server/firebase.js
+
 # Native
 *.orig.*
 *.jks
